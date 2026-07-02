@@ -20,10 +20,15 @@ export default function OtpVerifyPage() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const emailParam = params.get('email');
+    const devOtpParam = params.get('devOtp');
     if (emailParam) {
       setEmail(emailParam);
     } else {
       setError('Invalid request. Email is missing.');
+    }
+    if (devOtpParam) {
+      setOtp(devOtpParam);
+      setSuccess(`[Development Mode] Auto-filled OTP code: ${devOtpParam}`);
     }
   }, [location]);
 
@@ -58,8 +63,14 @@ export default function OtpVerifyPage() {
     setError('');
     setSuccess('');
     try {
-      await resendOtp(email);
-      setSuccess('A new verification code has been sent to your email.');
+      const data = await resendOtp(email);
+      const devOtp = data?.devOtp;
+      if (devOtp) {
+        setOtp(devOtp);
+        setSuccess(`[Development Mode] Auto-filled new OTP code: ${devOtp}`);
+      } else {
+        setSuccess('A new verification code has been sent to your email.');
+      }
       setTimer(60);
       setCanResend(false);
     } catch (err: any) {

@@ -26,8 +26,10 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      await register(name, email, password, role);
-      navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+      const data = await register(name, email, password, role);
+      const devOtp = data?.devOtp;
+      const target = `/verify-email?email=${encodeURIComponent(email)}` + (devOtp ? `&devOtp=${devOtp}` : '');
+      navigate(target);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Registration failed. Please try again.');
     } finally {

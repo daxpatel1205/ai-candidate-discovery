@@ -22,7 +22,9 @@ export default function LoginPage() {
     } catch (err: any) {
       const msg = err.response?.data?.error || 'Failed to authenticate. Please check credentials.';
       if (err.response?.data?.notVerified) {
-        navigate(`/verify-email?email=${encodeURIComponent(email)}`);
+        const devOtp = err.response?.data?.devOtp;
+        const target = `/verify-email?email=${encodeURIComponent(email)}` + (devOtp ? `&devOtp=${devOtp}` : '');
+        navigate(target);
       } else {
         setError(msg);
       }

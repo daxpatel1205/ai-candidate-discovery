@@ -182,7 +182,8 @@ router.post('/register', async (req, res) => {
     res.status(201).json({
       message: 'Registration successful. OTP sent to email.',
       userId: user._id,
-      email: user.email
+      email: user.email,
+      ...(process.env.NODE_ENV !== 'production' && { devOtp: otp })
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -276,7 +277,10 @@ router.post('/resend-otp', async (req, res) => {
 
     sendOTPEmail(user.email, `AI Candidate Discovery - OTP Resend (${purpose})`, otp, user.name);
 
-    res.json({ message: 'New OTP code sent to your email.' });
+    res.json({
+      message: 'New OTP code sent to your email.',
+      ...(process.env.NODE_ENV !== 'production' && { devOtp: otp })
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -320,7 +324,8 @@ router.post('/login', async (req, res) => {
       return res.status(403).json({
         error: 'Email is not verified. A verification code has been sent.',
         notVerified: true,
-        email: user.email
+        email: user.email,
+        ...(process.env.NODE_ENV !== 'production' && { devOtp: otp })
       });
     }
 
@@ -419,7 +424,10 @@ router.post('/forgot-password', async (req, res) => {
 
     sendOTPEmail(user.email, 'AI Candidate Discovery - Password Reset OTP', otp, user.name);
 
-    res.json({ message: 'Password reset OTP code sent to your email.' });
+    res.json({
+      message: 'Password reset OTP code sent to your email.',
+      ...(process.env.NODE_ENV !== 'production' && { devOtp: otp })
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -12,11 +12,11 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   refreshToken: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string, role?: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<any>;
+  register: (name: string, email: string, password: string, role?: string) => Promise<any>;
   verifyEmail: (email: string, otp: string) => Promise<void>;
-  resendOtp: (email: string, purpose?: string) => Promise<void>;
-  forgotPassword: (email: string) => Promise<void>;
+  resendOtp: (email: string, purpose?: string) => Promise<any>;
+  forgotPassword: (email: string) => Promise<any>;
   resetPassword: (email: string, otp: string, newPassword: string) => Promise<void>;
   logout: () => void;
   loading: boolean;
@@ -46,10 +46,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(data.token);
     setRefreshToken(data.refreshToken);
     setUser(data.user);
+    return data;
   };
 
   const register = async (name: string, email: string, password: string, role = 'recruiter') => {
-    await api.post('/auth/register', { name, email, password, role });
+    const { data } = await api.post('/auth/register', { name, email, password, role });
+    return data;
   };
 
   const verifyEmail = async (email: string, otp: string) => {
@@ -57,11 +59,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const resendOtp = async (email: string, purpose = 'email-verification') => {
-    await api.post('/auth/resend-otp', { email, purpose });
+    const { data } = await api.post('/auth/resend-otp', { email, purpose });
+    return data;
   };
 
   const forgotPassword = async (email: string) => {
-    await api.post('/auth/forgot-password', { email });
+    const { data } = await api.post('/auth/forgot-password', { email });
+    return data;
   };
 
   const resetPassword = async (email: string, otp: string, newPassword: string) => {
