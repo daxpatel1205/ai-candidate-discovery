@@ -1,0 +1,25 @@
+John Smith
+john@email.com | +91-9876543210 | linkedin.com/in/johnsmith | github.com/johnsmith
+
+Professional Summary
+Full Stack Developer with 5+ years of experience building scalable web applications using React, Node.js, and AWS. Led teams of 8 engineers and delivered systems serving 10,000+ users. Passionate about clean code and cloud-native solutions.
+
+Work Experience
+Senior Full Stack Developer at TechCorp (2021-Present)
+- Developed and deployed React-based dashboards reducing load time by 40%
+- Architected Node.js microservices handling 50K+ daily API requests with 99.9% uptime
+- Led a team of 8 engineers in agile sprint cycles, delivering 3 major features on time
+
+Full Stack Developer at StartupXYZ (2019-2021)
+- Built REST APIs using Express and MongoDB serving 2,500+ users
+- Implemented CI/CD pipelines reducing deployment time by 60%
+
+Education
+Bachelor of Technology - Computer Science
+IIT Bangalore, 2019
+
+Skills
+React, Node.js, TypeScript, JavaScript, Python, AWS, Docker, Kubernetes, MongoDB, Redis, GraphQL
+
+Certifications
+AWS Certified Developer Associate

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.env
+uploads/
+chroma_data/
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.log
+.DS_Store

@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  ai-service:
+    build: ./ai-service
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - CHROMA_PERSIST_DIR=/app/chroma_data
+    volumes:
+      - ./ai-service:/app
+      - chroma_data:/app/chroma_data
+
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/ai-candidate-discovery
+      - JWT_SECRET=${JWT_SECRET:-dev-secret}
+      - AI_SERVICE_URL=http://ai-service:8000
+    volumes:
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      - mongodb
+      - ai-service
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:4000/api
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+  chroma_data:
