@@ -2,7 +2,7 @@
 
 AI-powered platform to discover, rank, and evaluate candidates with semantic search, interview question generation, fraud detection, and multilingual support.
 
-# WEBSITE [
+# WEBSITE 
 (https://ai-candidate-discovery-frontend.onrender.com)
 ## Architecture
 
