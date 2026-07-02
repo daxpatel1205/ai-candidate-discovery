@@ -22,8 +22,14 @@ export default function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      await forgotPassword(email);
-      setSuccess('A 6-digit password reset code has been sent to your email.');
+      const data = await forgotPassword(email);
+      const devOtp = data?.devOtp;
+      if (devOtp) {
+        setOtp(devOtp);
+        setSuccess(`[Development Mode] Reset code sent! Auto-filled: ${devOtp}`);
+      } else {
+        setSuccess('A 6-digit password reset code has been sent to your email.');
+      }
       setStep(2);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to send password reset code.');

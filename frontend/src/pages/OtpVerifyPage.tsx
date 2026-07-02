@@ -78,6 +78,30 @@ export default function OtpVerifyPage() {
     }
   };
 
+  const handleAutoVerifyDev = async () => {
+    setError('');
+    setSuccess('');
+    setLoading(true);
+    try {
+      const data = await resendOtp(email);
+      const devOtp = data?.devOtp;
+      if (devOtp) {
+        setOtp(devOtp);
+        await verifyEmail(email, devOtp);
+        setSuccess('[Dev Mode] Account auto-verified successfully! Redirecting to login…');
+        setTimeout(() => navigate('/login'), 1500);
+      } else {
+        setError('Auto-verify failed. devOtp was not returned by the server.');
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Auto-verify failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isDevMode = import.meta.env.DEV || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
   return (
     <div className="auth-page">
       <div className="auth-card">
@@ -126,6 +150,18 @@ export default function OtpVerifyPage() {
             {loading ? <><span className="spinner" />Verifying…</> : 'Verify Code'}
           </button>
         </form>
+
+        {isDevMode && (
+          <button
+            type="button"
+            className="secondary"
+            onClick={handleAutoVerifyDev}
+            disabled={loading}
+            style={{ width: '100%', marginTop: '0.75rem', padding: '0.75rem' }}
+          >
+            ⚙️ Auto-Verify (Dev Mode)
+          </button>
+        )}
 
         <p className="auth-footer">
           Didn't receive the email?{' '}
